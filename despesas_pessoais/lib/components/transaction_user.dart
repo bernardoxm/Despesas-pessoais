@@ -44,8 +44,8 @@ class _TransactionUserState extends State<TransactionUser> {
     // TODO: implement build
     return Column(
       children: <Widget>[
-        TransactionList(_transactions),
         TransactionFrom(_addTransaction),
+        TransactionList(_transactions),
       ],
     );
   }
