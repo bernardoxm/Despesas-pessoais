@@ -23,7 +23,7 @@ class TransactionList extends StatelessWidget {
                 Container(
                   height: 200,
                   child: Image.asset(
-                    'assets/images/604a7b7fa322d30f1243b3c1_EGA Futura Gastos 512.png',
+                    './assets/images/604a7b7fa322d30f1243b3c1_EGA Futura Gastos 512.png',
                     fit: BoxFit.cover,
                   ),
                 ),
