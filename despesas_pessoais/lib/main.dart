@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:despesas_pessoais/components/chart.dart';
 import 'package:despesas_pessoais/components/transaction_form.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'components/transaction_list.dart';
@@ -92,27 +94,47 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     bool isLandScape = mediaQuery.orientation == Orientation.landscape;
+   
+   Widget _getIconButton(IconData icon, Function() fn) {
+    return Platform.isIOS
+        ? GestureDetector(onTap: fn, child: Icon(icon))
+        : IconButton(icon: Icon(icon), onPressed: fn);
+  }
+   
     final appBar = AppBar(
         title: Text('Despesas Pessoais',style:  TextStyle(fontSize: 20 * mediaQuery.textScaleFactor,),), centerTitle: true,
         actions: <Widget>[
           if(isLandScape)
-           IconButton(
-            icon: Icon(_showChart?Icons.list : Icons.show_chart),
-            onPressed: () {
+           _getIconButton(
+            _showChart?Icons.list : Icons.show_chart,
+            () {
               setState(() {
                 _showChart = !_showChart;
               });
             }
           ),
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _opentransactionFormModal(context),
+          _getIconButton(
+            Icons.add,
+            () => _opentransactionFormModal(context),
           ),
         ],
       );
 
+
     final availabelHeight = mediaQuery.size.height - appBar.preferredSize.height - mediaQuery.padding.top;
-    return Scaffold(
+   var actions;
+   var bodyPage;
+   return Platform.isIOS
+        ? CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(
+              middle: Text('Despesas Pessoais'),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: actions,
+              ),
+            ),
+            child: bodyPage,
+          ) : Scaffold(
       appBar: appBar ,
       body: SingleChildScrollView(
         child: Column(
