@@ -31,11 +31,11 @@ class Chart extends StatelessWidget {
         'value': totalSum,
       };
       
-    });
+    }).reversed.toList();
     
   }
 double get _weekTotalValue{
-return groupedTransactions.fold(0.0, (sum, tr) 
+return groupedTransactions.fold(0.0, (sum, tr)
 {return sum + (tr['value'] as double);
 });
 
@@ -57,9 +57,9 @@ return groupedTransactions.fold(0.0, (sum, tr)
               fit: FlexFit.tight,
               
               child: ChartBar(
-             label: tr['day'] as String,
+            label: tr['day'] as String,
             value: tr['value'] as double,
-            percentage:(tr['value'] as double)/ _weekTotalValue,
+            percentage:_weekTotalValue == 0?0:(tr['value'] as double)/ _weekTotalValue,
             ),
       
       

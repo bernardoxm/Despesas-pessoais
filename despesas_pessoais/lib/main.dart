@@ -18,8 +18,8 @@ class ExpensesApp extends StatelessWidget {
       home: MyHomePage(),
       theme: tema.copyWith(
         colorScheme: tema.colorScheme.copyWith(
-          primary: Colors.purple,
-          secondary: Colors.amber,
+          primary: Color.fromRGBO(38, 165, 144, 1),
+          secondary:Color.fromRGBO(38, 165, 144, 1),
         ),
         textTheme: tema.textTheme.copyWith(
           headline6: TextStyle(
@@ -48,24 +48,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [
-    Transaction(
-      id: 't0',
-      title: 'CONTA ANTIGA',
-      value: 400.00,
-      date: DateTime.now().subtract(Duration(days: 31)),
-    ),
-    Transaction(
-      id: 't1',
-      title: 'Novo tenis de corrida',
-      value: 310.76,
-      date: DateTime.now().subtract(Duration(days: 3)),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Conta de Luz',
-      value: 211.30,
-      date: DateTime.now().subtract(Duration(days: 2)),
-    ),
+
   ];
 
   List<Transaction> get _recentTrransactions {
@@ -76,12 +59,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
         id: Random().nextDouble().toString(),
         title: title,
         value: value,
-        date: DateTime.now());
+        date: date);
 
     setState(() {
       _transactions.add(newTransaction);
@@ -89,6 +72,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     Navigator.of(context).pop();
   }
+
+ _removeTransaction(String id ){
+  setState(() {
+   _transactions.removeWhere((tr) => tr.id == id);
+  });
+ }
 
   _opentransactionFormModal(BuildContext context) {
     showModalBottomSheet(
@@ -102,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Despesas Pessoais'),
+        title: Text('Despesas Pessoais',), centerTitle: true,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
@@ -115,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
            Chart(_recentTrransactions),
-            TransactionList(_transactions),
+            TransactionList(_transactions,_removeTransaction),
           ],
         ),
       ),
