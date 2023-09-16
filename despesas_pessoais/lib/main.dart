@@ -12,6 +12,8 @@ main() => runApp(ExpensesApp());
 class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+   
     final ThemeData tema = ThemeData();
 
     return MaterialApp(
@@ -47,9 +49,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [
-
-  ];
+  final List<Transaction> _transactions = [];
+  bool _showChart = false;
 
   List<Transaction> get _recentTrransactions {
     return _transactions.where((tr) {
@@ -89,22 +90,49 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Despesas Pessoais',), centerTitle: true,
+    final mediaQuery = MediaQuery.of(context);
+    bool isLandScape = mediaQuery.orientation == Orientation.landscape;
+    final appBar = AppBar(
+        title: Text('Despesas Pessoais',style:  TextStyle(fontSize: 20 * mediaQuery.textScaleFactor,),), centerTitle: true,
         actions: <Widget>[
+          if(isLandScape)
+           IconButton(
+            icon: Icon(_showChart?Icons.list : Icons.show_chart),
+            onPressed: () {
+              setState(() {
+                _showChart = !_showChart;
+              });
+            }
+          ),
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () => _opentransactionFormModal(context),
-          )
+          ),
         ],
-      ),
+      );
+
+    final availabelHeight = mediaQuery.size.height - appBar.preferredSize.height - mediaQuery.padding.top;
+    return Scaffold(
+      appBar: appBar ,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-           Chart(_recentTrransactions),
-            TransactionList(_transactions,_removeTransaction),
+          //    if(isLandScape)
+          //    Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Text('Exibir grafico '),
+          //       Switch.adaptive(value: _showChart, onChanged: (value){
+          //       setState(() {
+          //        _showChart =  value;
+          //       });
+          //     },),
+          //   ],
+          // ),
+            if(_showChart || !isLandScape) 
+           Container(child: Chart(_recentTrransactions),height: availabelHeight * (isLandScape ? 0.7:0.23),),
+            if(!_showChart || !isLandScape)Container(child: TransactionList(_transactions,_removeTransaction),height: availabelHeight * (isLandScape ? 0.75 :0.75),),
           ],
         ),
       ),

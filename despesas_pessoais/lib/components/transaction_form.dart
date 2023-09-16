@@ -45,52 +45,61 @@ class _TransactionFromState extends State<TransactionFrom> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: <Widget>[
-            TextField(
-                controller: _titleControler,
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Padding(
+          padding:  EdgeInsets.only(
+            top: 10,
+            right: 10,
+            left: 10,
+            bottom: 10.0 + MediaQuery.of(context).viewInsets.bottom,
+
+
+          ),
+          child: Column(
+            children: <Widget>[
+              TextField(
+                  controller: _titleControler,
+                  onSubmitted: (_) => _subimitForm(),
+                  decoration: InputDecoration(
+                    labelText: 'Titulo',
+                  )),
+              TextField(
+                controller: _valueControler,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
                 onSubmitted: (_) => _subimitForm(),
-                decoration: InputDecoration(
-                  labelText: 'Titulo',
-                )),
-            TextField(
-              controller: _valueControler,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              onSubmitted: (_) => _subimitForm(),
-              decoration: InputDecoration(labelText: 'Valor (R\$)'),
-            ),
-            Container(
-              height: 70,
-              child: Row(
+                decoration: InputDecoration(labelText: 'Valor (R\$)'),
+              ),
+              Container(
+                height: 70,
+                child: Row(
+                  children: [
+                    Expanded(child: Text(_selectedDate == null ?'Nenhuma data selecionada! ':'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}')),
+                    TextButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.white, onPrimary: Color.fromRGBO(38, 165, 144, 1)),
+                      child: Text('Selecionar Data'),
+                      onPressed: _showDatePicker,
+                    )
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Expanded(child: Text(_selectedDate == null ?'Nenhuma data selecionada! ':'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}')),
-                  TextButton(
+                  ElevatedButton(
+                    child: Text('Nova Transacao'),
+                    onPressed: () {
+                      _subimitForm();
+                    },
                     style: ElevatedButton.styleFrom(
-                        primary: Colors.white, onPrimary: Color.fromRGBO(38, 165, 144, 1)),
-                    child: Text('Selecionar Data'),
-                    onPressed: _showDatePicker,
-                  )
+                        primary: Color.fromRGBO(38, 165, 144, 1), onPrimary: Colors.white),
+                  ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  child: Text('Nova Transacao'),
-                  onPressed: () {
-                    _subimitForm();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      primary: Color.fromRGBO(38, 165, 144, 1), onPrimary: Colors.white),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
