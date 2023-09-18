@@ -1,5 +1,8 @@
+import 'package:despesas_pessoais/components/adaptative_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'adaptative_text_field.dart';
 
 class TransactionFrom extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
@@ -14,7 +17,7 @@ class _TransactionFromState extends State<TransactionFrom> {
   final _titleControler = TextEditingController();
 
   final _valueControler = TextEditingController();
-     DateTime _selectedDate = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
 
   _subimitForm() {
     final title = _titleControler.text;
@@ -22,7 +25,7 @@ class _TransactionFromState extends State<TransactionFrom> {
     if (title.isEmpty || value <= 0 || _selectedDate == null) {
       return;
     }
-    widget.onSubmit(title, value,_selectedDate);
+    widget.onSubmit(title, value, _selectedDate);
   }
 
   _showDatePicker() {
@@ -31,16 +34,14 @@ class _TransactionFromState extends State<TransactionFrom> {
       initialDate: DateTime.now(),
       firstDate: DateTime(2019),
       lastDate: DateTime.now(),
-    ).then((pickedDate){
-      if(pickedDate == null){
-        return ; 
-    
-    }
-     setState(() {
-       _selectedDate = pickedDate;
-     });
-
-  });
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
   }
 
   @override
@@ -49,36 +50,38 @@ class _TransactionFromState extends State<TransactionFrom> {
       child: Card(
         elevation: 5,
         child: Padding(
-          padding:  EdgeInsets.only(
+          padding: EdgeInsets.only(
             top: 10,
             right: 10,
             left: 10,
             bottom: 10.0 + MediaQuery.of(context).viewInsets.bottom,
-
-
           ),
           child: Column(
             children: <Widget>[
-              TextField(
-                  controller: _titleControler,
-                  onSubmitted: (_) => _subimitForm(),
-                  decoration: InputDecoration(
-                    labelText: 'Titulo',
-                  )),
-              TextField(
-                controller: _valueControler,
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+              AdaptativeTextField(
+                controller: _titleControler,
                 onSubmitted: (_) => _subimitForm(),
-                decoration: InputDecoration(labelText: 'Valor (R\$)'),
+                label: 'Titulo',
+                keybordtype: TextInputType.text,
+              ),
+              AdaptativeTextField(
+                controller: _valueControler,
+                keybordtype: TextInputType.number,
+                onSubmitted: (_) => _subimitForm(),
+                label: 'Valor (R\$)',
               ),
               Container(
                 height: 70,
                 child: Row(
                   children: [
-                    Expanded(child: Text(_selectedDate == null ?'Nenhuma data selecionada! ':'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}')),
+                    Expanded(
+                        child: Text(_selectedDate == null
+                            ? 'Nenhuma data selecionada! '
+                            : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}')),
                     TextButton(
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.white, onPrimary: Color.fromRGBO(38, 165, 144, 1)),
+                          primary: Colors.white,
+                          onPrimary: Color.fromRGBO(38, 165, 144, 1)),
                       child: Text('Selecionar Data'),
                       onPressed: _showDatePicker,
                     )
@@ -88,13 +91,9 @@ class _TransactionFromState extends State<TransactionFrom> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ElevatedButton(
-                    child: Text('Nova Transacao'),
-                    onPressed: () {
-                      _subimitForm();
-                    },
-                    style: ElevatedButton.styleFrom(
-                        primary: Color.fromRGBO(38, 165, 144, 1), onPrimary: Colors.white),
+                  AdaptativeButton(
+                    label: 'Nova Transacao',
+                    onPressed: _subimitForm,
                   ),
                 ],
               ),
