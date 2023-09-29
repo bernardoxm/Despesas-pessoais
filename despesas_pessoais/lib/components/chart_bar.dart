@@ -46,7 +46,7 @@ class ChartBar extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primary,
                       
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius:  BorderRadius.circular(5),
                     ),
                   ),
                 ),

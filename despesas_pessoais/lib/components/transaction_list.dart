@@ -70,14 +70,14 @@ class TransactionList extends StatelessWidget {
                   trailing: MediaQuery.of(context).size.width > 400
                       ? ElevatedButton.icon(
                           onPressed: () => onRemove(tr.id),
-                          icon: Icon(Icons.delete),
-                          label: Text('Excluir'),
+                          icon: const Icon(Icons.delete),
+                          label: const Text('Excluir'),
                         style: ElevatedButton.styleFrom( primary: Theme.of(context).errorColor,
                         
                         
                         ))
                       : IconButton(
-                          icon: Icon(Icons.delete),
+                          icon: const Icon(Icons.delete),
                           onPressed: () => onRemove(tr.id),
                           color: Theme.of(context).copyWith().errorColor,
                         ),

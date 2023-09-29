@@ -51,7 +51,7 @@ class _TransactionFromState extends State<TransactionFrom> {
               ),
               AdaptativeTextField(
                 controller: _valueControler,
-                keybordtype: TextInputType.number,
+                keybordtype:  TextInputType.number,
                 onSubmitted: (_) => _subimitForm(),
                 label: 'Valor (R\$)',
               ),

@@ -102,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
    
     final appBar = AppBar(
-        title: Text('Despesas Pessoais',style:  TextStyle(fontSize: 20 * mediaQuery.textScaleFactor,),), centerTitle: true,
+        title:  Text('Despesas Pessoais',style:  TextStyle(fontSize: 20 * mediaQuery.textScaleFactor,),), centerTitle: true,
         actions: <Widget>[
           if(isLandScape)
            _getIconButton(
@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
    return Platform.isIOS
         ? CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(
-              middle: Text('Despesas Pessoais'),
+              middle:const Text('Despesas Pessoais'),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: actions,
@@ -159,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () => _opentransactionFormModal(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
